@@ -1,3 +1,3 @@
 module.exports.handler = () => {
-    return "Hello world";
+    return "Hello lambda!";
 }
