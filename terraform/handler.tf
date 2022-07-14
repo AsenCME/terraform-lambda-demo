@@ -38,7 +38,7 @@ resource "aws_lambda_function" "terraform-lambda-demo" {
 
 resource "aws_lambda_function_url" "terraform-lambda-demo-url" {
   function_name      = aws_lambda_function.terraform-lambda-demo.function_name
-  authorization_type = "AWS_IAM"
+  authorization_type = "NONE"
   cors {
     allow_credentials = true
     allow_origins     = ["*"]
