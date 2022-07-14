@@ -3,7 +3,7 @@ name: 'Lambda Deploy'
 on:
   push:
     branches:
-    - master
+    - main
   pull_request:
 
 defaults:
@@ -28,7 +28,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy AWS Lambda Zips
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: ${GITHUB_WORKSPACE}/scripts/deployment/deploy_lambda_zips_to_s3.sh
         shell: bash
 
@@ -36,10 +36,10 @@ jobs:
         run: cd terraform/lambda && terraform init
 
       - name: Terraform Lambda Plan
-        if: github.ref != 'refs/heads/master' && github.event_name != 'push'
+        if: github.ref != 'refs/heads/main' && github.event_name != 'push'
         run: cd terraform/lambda && terraform plan
 
       - name: Terraform Lambda Apply
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: cd terraform/lambda && terraform apply -auto-approve
 
