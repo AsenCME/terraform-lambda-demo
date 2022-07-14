@@ -37,9 +37,9 @@ jobs:
 
       - name: Terraform Lambda Plan
         if: github.ref != 'refs/heads/main' && github.event_name != 'push'
-        run: cd terraform/lambda && terraform plan
+        run: cd terraform && terraform plan
 
       - name: Terraform Lambda Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: cd terraform/lambda && terraform apply -auto-approve
+        run: cd terraform && terraform apply -auto-approve
 
