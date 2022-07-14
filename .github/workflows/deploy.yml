@@ -33,7 +33,7 @@ jobs:
 #         shell: bash
 
       - name: Terraform Lambda Init
-        run: cd terraform/lambda && terraform init
+        run: cd terraform && terraform init
 
       - name: Terraform Lambda Plan
         if: github.ref != 'refs/heads/main' && github.event_name != 'push'
