@@ -50,8 +50,9 @@ resource "aws_lambda_function_url" "terraform-lambda-demo-url" {
 }
 
 resource "aws_lambda_permission" "invoke_function_url" {
-  statement_id  = "InvokeFunctionUrl-Terraform"
-  action        = "lambda:InvokeFunctionUrl"
-  function_name = aws_lambda_function.terraform-lambda-demo.function_name
-  principal     = "*"
+  statement_id           = "InvokeFunctionUrl-Terraform"
+  action                 = "lambda:InvokeFunctionUrl"
+  function_name          = aws_lambda_function.terraform-lambda-demo.function_name
+  function_url_auth_type = "NONE"
+  principal              = "*"
 }
