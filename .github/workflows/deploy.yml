@@ -27,10 +27,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Deploy AWS Lambda Zips
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: ${GITHUB_WORKSPACE}/scripts/deployment/deploy_lambda_zips_to_s3.sh
-        shell: bash
+#       - name: Deploy AWS Lambda Zips
+#         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+#         run: ${GITHUB_WORKSPACE}/scripts/deployment/deploy_lambda_zips_to_s3.sh
+#         shell: bash
 
       - name: Terraform Lambda Init
         run: cd terraform/lambda && terraform init
