@@ -48,3 +48,10 @@ resource "aws_lambda_function_url" "terraform-lambda-demo-url" {
     max_age           = 86400
   }
 }
+
+resource "aws_lambda_permission" "invoke_function_url" {
+  statement_id  = "InvokeFunctionUrl-Terraform"
+  action        = "lambda:InvokeFunctionUrl"
+  function_name = aws_lambda_function.terraform-lambda-demo.function_name
+  principal     = "*"
+}
