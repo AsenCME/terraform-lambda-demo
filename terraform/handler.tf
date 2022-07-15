@@ -1,39 +1,29 @@
+data "archive_file" "terraform-lambda-demo-zip" {
+    type = "zip"
+    source_dir = "${path.module}/lambda"
+    output_path = "${path.module}/terraform-lambda-demo.zip"
+}
+
+resource "aws_s3_object" "terraform-lambda-demo-s3" {
+    bucket = "apfie-people"
+    key = "asen/examples/terraform-lambda-demo.zip"
+    source = data.archive_file.terraform-lambda-demo-zip
+    etag = filemd5(data.archive_file.terraform-lambda-demo-zip.output_path)
+}
+
 resource "aws_lambda_function" "terraform-lambda-demo" {
     function_name = "terraform-lambda-demo"
-
-    ##### Roles and security #####
     role = "arn:aws:iam::596346144973:role/iam_for_test_lambda"
-    # security_group_ids = # (Required) List of security group IDs associated with the Lambda function.
-    # subnet_ids = # (Required) List of subnet IDs associated with the Lambda function.
-
-
-    ##### Code #####
-    # Source code from S3
     s3_bucket = "apfie-people"
-    s3_key = "asen/examples/terraform-lambda-demo.zip"
-
-    # Source code from zip file
-    # filename = "lambda_function_payload.zip"
-    # source_code_hash = filebase64sha256("lambda_function_payload.zip")
-
-    # Source code from image
-    # image_config =
-    # image_uri = # ECR image URI containing the function's deployment package.
-
-    # Entry point
+    s3_key = aws_s3_object.terraform-lambda-demo-s3.key
     handler = "handler.handler"
-
-
-    ##### Runtime Environment #####
-    # runtime = "nodejs12.x"
-
-    ##### Env Variables #####
     runtime = "nodejs16.x"
-    # environment {
-    #     variables = {
-    #         foo = "bar"
-    #     }
-    # }
+    source_code_hash = data.archive_file.terraform-lambda-demo.output_base64sha256
+}
+
+resource "aws_cloudwatch_log_group" "terraform-lambda-demo" {
+    name = "/aws/lambda/${aws_lambda_function.terraform-lambda-demo.function_name}"
+    retention_in_days = 30
 }
 
 resource "aws_lambda_function_url" "terraform-lambda-demo-url" {
