@@ -34,7 +34,7 @@ resource "aws_apigatewayv2_integration" "terraform-api-handler" {
   api_id = aws_apigatewayv2_api.api.id
   integration_uri = aws_lambda_function.terraform-lambda-demo.invoke_arn
   integration_type = "AWS_PROXY"
-  integration_method = "GET"
+  integration_method = "POST"
 }
 
 resource "aws_apigatewayv2_route" "terraform-api-route" {
