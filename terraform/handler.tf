@@ -27,7 +27,7 @@ resource "aws_s3_object" "terraform-lambda-demo-s3" {
     bucket = "apfie-people"
     key = "asen/examples/terraform-lambda-demo.zip"
     source = data.archive_file.terraform-lambda-demo-zip.output_path
-    # etag = filemd5(data.archive_file.terraform-lambda-demo-zip.output_path)
+    etag = filemd5(data.archive_file.terraform-lambda-demo-zip.source_dir)
 }
 
 resource "aws_lambda_function" "terraform-lambda-demo" {
