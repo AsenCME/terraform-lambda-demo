@@ -40,5 +40,5 @@ jobs:
       
       - name: Deploy Production 🚀
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: cd terraform && terraform apply -auto-approve --stage prod
+        run: cd terraform && terraform apply -auto-approve -var stage="prod"
 
