@@ -1,14 +1,26 @@
+resource "null_resource" "npm_install" {
+  triggers = {
+    lambda_hash = timestamp()
+  }
+
+  provisioner "local-exec" {
+    command = "cd ./../lambda && npm i"
+  }
+}
+
 data "archive_file" "terraform-lambda-demo-zip" {
+    depends_on = [null_resource.npm_install]
     type = "zip"
-    source_dir = "${path.root}/../lambda"
-    output_path = "${path.root}/../terraform-lambda-demo.zip"
+    # source_dir = "${path.root}/../lambda"
+    source_dir = "./../lambda/"
+    output_path = "./terraform-lambda-demo.zip"
 }
 
 resource "aws_s3_object" "terraform-lambda-demo-s3" {
     bucket = "apfie-people"
     key = "asen/examples/terraform-lambda-demo.zip"
     source = data.archive_file.terraform-lambda-demo-zip.output_path
-    etag = filemd5(data.archive_file.terraform-lambda-demo-zip.output_path)
+    etag = data.archive_file.terraform-lambda-demo-zip.output_md5
 }
 
 resource "aws_lambda_function" "terraform-lambda-demo" {
