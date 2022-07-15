@@ -20,21 +20,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials 🎫
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Terraform Lambda Init
+      - name: Terraform Init 🏁
         run: cd terraform && terraform init
 
-      - name: Terraform Lambda Plan
+      - name: Terraform Plan  📆
         if: github.ref != 'refs/heads/main' && github.event_name != 'push'
         run: cd terraform && terraform plan
 
-      - name: Terraform Lambda Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      - name: Deploy Dev 🛠
+        if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
         run: cd terraform && terraform apply -auto-approve
+      
+      - name: Deploy Production 🚀
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: cd terraform && terraform apply -auto-approve --stage prod
 
