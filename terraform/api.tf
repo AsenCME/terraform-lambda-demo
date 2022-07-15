@@ -15,7 +15,7 @@ resource "aws_apigatewayv2_stage" "api-stage" {
   name = "terraform-demo-api-stage"
   auto_deploy = true
   access_log_settings {
-    destination_arn = aws_cloudwatch_log_group.api.arn
+    destination_arn = aws_cloudwatch_log_group.api-log-group.arn
     format = jsonencode({
       requestId               = "$context.requestId"
       sourceIp                = "$context.identity.sourceIp"
