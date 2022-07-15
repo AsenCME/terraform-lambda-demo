@@ -48,5 +48,5 @@ resource "aws_lambda_permission" "invoke_function_url" {
 }
 
 output "function-url" {
-    value = aws_lambda_function_url.function_url
+    value = aws_lambda_function_url.terraform-lambda-demo-url.function_url
 }
