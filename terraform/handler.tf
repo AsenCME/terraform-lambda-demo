@@ -4,7 +4,7 @@ resource "null_resource" "npm_install" {
   }
 
   provisioner "local-exec" {
-    command = "cd ./../lambda && npm ci"
+    command = "cd ./../lambda && npm i"
   }
 }
 
