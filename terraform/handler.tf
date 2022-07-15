@@ -20,7 +20,7 @@ data "archive_file" "terraform-lambda-demo-zip" {
     type = "zip"
     # source_dir = "${path.root}/../lambda"
     source_dir = "${data.null_data_source.wait_for_lambda_exporter.outputs["source_dir"]}"
-    output_path = "${path.root}/../terraform-lambda-demo.zip"
+    output_path = "${path.root}/terraform-lambda-demo.zip"
 }
 
 resource "aws_s3_object" "terraform-lambda-demo-s3" {
