@@ -38,7 +38,7 @@ resource "aws_apigatewayv2_integration" "terraform-api-handler" {
   integration_method = "GET"
 }
 
-resrouce "aws_apigatewayv2_route" "terraform-api-route" {
+resource "aws_apigatewayv2_route" "terraform-api-route" {
   api_id = aws_apigatewayv2_api.api.id
   route_key = "GET /demo"
   target = "integrations/${aws_apigatewayv2_integration.terraform-api-handler.id}"
