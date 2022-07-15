@@ -1,3 +1,8 @@
+variable "stage" {
+  type = string
+  default = "dev"
+}
+
 resource "aws_apigatewayv2_api" "api" {
   name = "terraform-demo-api"
   protocol_type = "HTTP"
@@ -11,7 +16,7 @@ resource "aws_apigatewayv2_api" "api" {
 
 resource "aws_apigatewayv2_stage" "api-stage" {
   api_id = aws_apigatewayv2_api.api.id
-  name = "terraform-demo-api-stage"
+  name = var.stage
   auto_deploy = true
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api-log-group.arn
