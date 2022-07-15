@@ -47,3 +47,12 @@ resource "aws_cloudwatch_log_group" "api-log-group" {
   name  = "/aws/terraform-demo-api/${aws_apigatewayv2_api.api.name}"
   retention_in_days = 30
 }
+
+resource "aws_lambda_permission" "api-permission" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.terraform-lambda-demo.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_apigatewayv2_api.api.execution_arn}/*/*"
+}
