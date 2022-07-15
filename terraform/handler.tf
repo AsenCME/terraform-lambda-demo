@@ -1,6 +1,26 @@
+resource "null_resource" "lambda_dependencies" {
+  provisioner "local-exec" {
+    command = "cd ${path.root}/../lambda && npm install"
+  }
+
+  triggers = {
+    package = sha256(file("${path.root}/../lambda/package.json"))
+    lock = sha256(file("${path.root}/../lambda/package-lock.json"))
+    node = sha256(join("",fileset(path.root, "./**/*.js")))
+  }
+}
+
+data "null_data_source" "wait_for_lambda_exporter" {
+  inputs = {
+    lambda_dependency_id = "${null_resource.lambda_dependencies.id}"
+    source_dir           = "${path.root}/../lambda"
+  }
+}
+
 data "archive_file" "terraform-lambda-demo-zip" {
     type = "zip"
-    source_dir = "${path.root}/../lambda"
+    # source_dir = "${path.root}/../lambda"
+    source_dir = "${data.null_data_source.wait_for_lambda_exporter.outputs["source_dir"]}"
     output_path = "${path.root}/../terraform-lambda-demo.zip"
 }
 
