@@ -4,8 +4,7 @@ resource "null_resource" "lambda_dependencies" {
   }
 
   triggers = {
-    package = sha256(file("${path.root}/../lambda/package.json"))
-    node = sha256(file("${path.root}/../lambda/handler.js"))
+    index = sha256(file("${path.root}/../lambda/handler.js"))
   }
 }
 
