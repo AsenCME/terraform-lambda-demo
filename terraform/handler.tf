@@ -18,7 +18,7 @@ resource "aws_lambda_function" "terraform-lambda-demo" {
     s3_key = aws_s3_object.terraform-lambda-demo-s3.key
     handler = "handler.handler"
     runtime = "nodejs16.x"
-    source_code_hash = data.archive_file.terraform-lambda-demo.output_base64sha256
+    source_code_hash = data.archive_file.terraform-lambda-demo-zip.output_base64sha256
 }
 
 resource "aws_cloudwatch_log_group" "terraform-lambda-demo" {
