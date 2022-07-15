@@ -5,7 +5,6 @@ resource "null_resource" "lambda_dependencies" {
 
   triggers = {
     package = sha256(file("${path.root}/../lambda/package.json"))
-    lock = sha256(file("${path.root}/../lambda/package-lock.json"))
     node = sha256(join("",fileset(path.root, "./**/*.js")))
   }
 }
